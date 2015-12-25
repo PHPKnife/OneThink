@@ -1,0 +1,21 @@
+# idea
+.idea/
+
+.classpath
+.project
+.settings
+eclipsebin
+
+out
+lib
+
+*.iml
+classes
+
+obj
+
+.DS_Store
+
+.buildpath
+
+Application/Runtime
