@@ -34,6 +34,16 @@ class GlobalController extends AdminController{
 		
 	}
 
+	public function getList($model = '', $limit = ''){
+	
+		$model 	= $this->_checkModel($model);
+		if (! empty($model)){
+			$order 	= method_exists($model, 'getOrderFields') ? $model->getOrderFields() : '';
+			$condition = $this->getSearchCondition($model);
+			return $model->order($order)->where($condition)->limit($limit)->select();
+		}
+	}
+	
 	public function add($model = ''){
 		if(IS_POST){
 			$this->doAdd($model);
