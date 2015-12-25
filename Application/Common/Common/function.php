@@ -17,6 +17,45 @@ const ONETHINK_ADDON_PATH = './Addons/';
  */
 
 /**
+ * 重新指定数组的索引
+ * @param unknown $arr
+ * @param unknown $key
+ */
+function reindexArray($arr, $key){
+	if (!is_array($arr)) {
+		return array();
+	}
+
+	$row = array_shift($arr);
+	if (!array_key_exists($key, $row)) {
+		return array();
+	}
+	array_unshift($arr, $row);
+
+	$res = array();
+	foreach ($arr as $row) {
+		$res[$row[$key]] = $row;
+	}
+
+	return $res;
+}
+
+/**
+ * 提取数组摸某一个key的值
+ * @param unknown $arr
+ * @param unknown $extract_key
+ */
+function extractArray($arr, $extract_key){
+	$res = array();
+	if (is_array($arr)) {
+		foreach ($arr as $row) {
+			$res[] = $row[$extract_key];
+		}
+	}
+
+	return $res;
+}
+/**
  * 检测用户是否登录
  * @return integer 0-未登录，大于0-当前登录用户ID
  * @author 麦当苗儿 <zuojiazi@vip.qq.com>
