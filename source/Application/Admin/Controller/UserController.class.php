@@ -8,7 +8,6 @@
 // +----------------------------------------------------------------------
 
 namespace Admin\Controller;
-use User\Api\UserApi;
 
 /**
  * 后台用户控制器
@@ -59,10 +58,12 @@ class UserController extends AdminController {
         empty($password) && $this->error('请输入密码');
 
         //密码验证
-        $User   =   new UserApi();
-        $uid    =   $User->login(UID, $password, 4);
-        ($uid == -2) && $this->error('密码不正确');
-
+        $Member =   D('Member');
+        $uid    =   $Member->login(UID, $password);
+        if(empty($uid)){
+            $this->error('密码不正确');
+        }
+       
         $Member =   D('Member');
         $data   =   $Member->create(array('nickname'=>$nickname));
         if(!$data){
@@ -99,22 +100,29 @@ class UserController extends AdminController {
         //获取参数
         $password   =   I('post.old');
         empty($password) && $this->error('请输入原密码');
-        $data['password'] = I('post.password');
-        empty($data['password']) && $this->error('请输入新密码');
+        $new_password = I('post.password');
+        empty($new_password) && $this->error('请输入新密码');
         $repassword = I('post.repassword');
         empty($repassword) && $this->error('请输入确认密码');
 
-        if($data['password'] !== $repassword){
+        if($new_password !== $repassword){
             $this->error('您输入的新密码与确认密码不一致');
         }
 
-        $Api    =   new UserApi();
-        $res    =   $Api->updateInfo(UID, $password, $data);
-        if($res['status']){
-            $this->success('修改密码成功！');
+        $member =   D('Member');
+        $user_info = $member->getMemberInfo(UID);
+        $en_password = encryptPassword($password, $user_info['salt']);
+        if($en_password != $user_info['password']){
+            $this->error('原密码错误！');
         }else{
-            $this->error($res['info']);
+            $res = $member->updatePassword(UID, $new_password);
+            if($res){
+                $this->success('修改密码成功！');
+            }else{
+                $this->error('修改密码失败！');
+            }
         }
+        
     }
 
     /**
@@ -200,26 +208,36 @@ class UserController extends AdminController {
         }
     }
 
-    public function add($username = '', $password = '', $repassword = '', $email = '', $mobile = ''){
+    public function add(){
         if(IS_POST){
             /* 检测密码 */
-            if($password != $repassword){
+            if(I('password') != I('repassword')){
                 $this->error('密码和重复密码不一致！');
             }
 
-            /* 调用注册接口注册用户 */
-            $User   =   new UserApi;
-            $uid    =   $User->register($username, $password, $email, $mobile);
-            if(0 < $uid){ //注册成功
-                $user = array('uid' => $uid, 'nickname' => $username, 'mobile'=>$mobile, 'email'=>$email, 'status' => 1);
-                if(!M('Member')->add($user)){
-                    $this->error('用户添加失败！');
-                } else {
-                    $this->success('用户添加成功！',U('index'));
+            $member =   D('Member');
+
+            $data = array(
+                'nickname' => I('nickname'),
+                'password' => I('password'),
+                'email'    => I('email'),
+                'mobile'   => I('mobile'),
+            );
+            
+            if(!$member->create($data)){
+                $this->error($member->getError());
+            }else{
+                $salt = random_string(8);
+                $data['password'] = encryptPassword(I('password'), $salt);
+                $data['salt']     = $salt;
+                $res = $member->add($data);
+                if($res){
+                   $this->success('用户添加成功！',U('index'));
+                }else{
+                   $this->error('用户添加失败！');
                 }
-            } else { //注册失败，显示错误信息
-                $this->error($this->showRegError($uid));
             }
+            
         } else {
             $this->meta_title = '新增用户';
             $this->display();

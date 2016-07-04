@@ -1,6 +1,5 @@
 <?php
 namespace Admin\Controller;
-// use User\Api\UserApi as UserApi;
 class IndexController extends AdminController {
 
     /**

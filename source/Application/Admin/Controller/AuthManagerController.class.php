@@ -16,7 +16,7 @@ use Admin\Model\AuthGroupModel;
  * Class AuthManagerController
  * @author 朱亚杰 <zhuyajie@topthink.net>
  */
-class AuthManagerController extends GlobalController{
+class AuthManagerController extends AdminController{
 
     /**
      * 后台节点配置的url作为规则存入auth_rule
@@ -216,13 +216,6 @@ class AuthManagerController extends GlobalController{
         $_REQUEST = array();
         $list = $this->lists($model,array('a.group_id'=>$group_id,'m.status'=>array('egt',0)),'m.uid asc','m.uid,m.nickname,m.last_login_time,m.last_login_ip,m.status');
         int_to_string($list);
-        $this->setLimit(array('a.group_id'=>$group_id,'m.status'=>array('egt',0)));
-        $all_list = $this->getList(M()->table( $l_table.' m' )->join ( $r_table.' a ON m.uid=a.uid' ));
-        $exist_uids = extractArray($all_list, 'uid');
-        $exist_uids = $exist_uids ? $exist_uids : '';
-        $condition = array();
-        $condition['uid'] = array('NOT IN', $exist_uids);
-        $member_map = D('Member')->where($condition)->getMembers();
         $member_map = D('Member')->getMembers();
         $this->assign('member_map', $member_map);
         $this->assign( '_list',     $list );

@@ -20,6 +20,17 @@ class MemberModel extends Model {
     protected $_validate = array(
         array('nickname', '1,16', '昵称长度为1-16个字符', self::EXISTS_VALIDATE, 'length'),
         array('nickname', '', '昵称被占用', self::EXISTS_VALIDATE, 'unique'), //用户名被占用
+        /* 验证密码 */
+        
+        array('password', '6,30', '密码长度6-30', self::EXISTS_VALIDATE, 'length'), //密码长度不合法
+        
+        /* 验证邮箱 */
+//         array('email', 'email', '邮箱格式不正确', self::EXISTS_VALIDATE), //邮箱格式不正确
+//         array('email', '', '邮箱已存在', self::EXISTS_VALIDATE, 'unique'), //邮箱被占用
+        
+//         /* 验证手机号码 */
+        
+//         array('mobile', '', '手机号已被占用', self::EXISTS_VALIDATE, 'unique'), //手机号被占用
     );
 
     public function lists($status = 1, $order = 'uid DESC', $field = true){
@@ -32,20 +43,38 @@ class MemberModel extends Model {
      * @param  integer $uid 用户ID
      * @return boolean      ture-登录成功，false-登录失败
      */
-    public function login($uid){
+    public function login($username, $password){
         /* 检测是否在当前应用注册 */
-        $user = $this->field(true)->find($uid);
+        $condition = array();
+        $condition['nickname'] = $username;
+        $user = $this->where($condition)->find();
         if(!$user || 1 != $user['status']) {
             $this->error = '用户不存在或已被禁用！'; //应用级别禁用
             return false;
+        }else{
+            $en_password = encryptPassword($password, $user['salt']);
+            if($en_password != $user['password']){
+                $this->error = '账号或者密码错误！'; 
+                return false;
+            }
         }
-
+        $uid = $user['uid'];
         //记录行为
         action_log('user_login', 'member', $uid, $uid);
 
         /* 登录用户 */
         $this->autoLogin($user);
         return true;
+    }
+    
+    public function loginByUid($uid, $password){
+        $user = $this->find($uid);
+        $en_password = encryptPassword($password, $user['salt']);
+        if($en_password != $user['password']){
+            return false;
+        }else{
+            return $uid;
+        }
     }
     
     public function getMembers($where = array()){
@@ -106,5 +135,15 @@ class MemberModel extends Model {
     	$where['uid'] = array('IN', $uids);
     	return $this->getMembers($where);
     }
+    
+    public function updatePassword($uid, $password){
+        $data = array();
+        $data['uid'] = $uid;
+        $salt = random_string(8);
+        $data['salt'] = $salt;
+        $data['password'] = encryptPassword($password, $salt);
+        return $this->save($data);
+    }
+ 
 
 }

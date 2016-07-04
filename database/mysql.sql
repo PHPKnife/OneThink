@@ -2,21 +2,21 @@
 Navicat MySQL Data Transfer
 
 Source Server         : 127.0.0.1
-Source Server Version : 50524
-Source Host           : 127.0.0.1:3306
+Source Server Version : 50617
+Source Host           : localhost:3306
 Source Database       : myot
 
 Target Server Type    : MYSQL
-Target Server Version : 50524
+Target Server Version : 50617
 File Encoding         : 65001
 
-Date: 2015-05-15 11:10:27
+Date: 2016-06-01 14:51:02
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for `ad_action`
+-- Table structure for ad_action
 -- ----------------------------
 DROP TABLE IF EXISTS `ad_action`;
 CREATE TABLE `ad_action` (
@@ -37,10 +37,10 @@ CREATE TABLE `ad_action` (
 -- ----------------------------
 INSERT INTO `ad_action` VALUES ('1', 'user_login', '用户登录', '积分+10，每天一次', 'table:member|field:score|condition:uid={$self} AND status>-1|rule:score+10|cycle:24|max:1;', '[user|get_nickname]在[time|time_format]登录了后台', '1', '1', '1387181220');
 INSERT INTO `ad_action` VALUES ('2', 'update_config', '更新配置', '新增或修改或删除配置', '', '', '1', '1', '1383294988');
-INSERT INTO `ad_action` VALUES ('3', 'update_menu', '更新菜单', '新增或修改或删除菜单', '', '', '1', '1', '1383296392');
+INSERT INTO `ad_action` VALUES ('3', 'update_menu', '更新菜单', '新增或修改或删除菜单', '', '', '1', '1', '1464762715');
 
 -- ----------------------------
--- Table structure for `ad_action_log`
+-- Table structure for ad_action_log
 -- ----------------------------
 DROP TABLE IF EXISTS `ad_action_log`;
 CREATE TABLE `ad_action_log` (
@@ -57,43 +57,15 @@ CREATE TABLE `ad_action_log` (
   KEY `action_ip_ix` (`action_ip`),
   KEY `action_id_ix` (`action_id`),
   KEY `user_id_ix` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=548 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='行为日志表';
+) ENGINE=MyISAM AUTO_INCREMENT=571 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='行为日志表';
 
 -- ----------------------------
 -- Records of ad_action_log
 -- ----------------------------
-INSERT INTO `ad_action_log` VALUES ('544', '1', '1', '2130706433', 'member', '1', 'admin在2015-05-08 15:29登录了后台', '1', '1431070150');
-INSERT INTO `ad_action_log` VALUES ('545', '1', '1', '2130706433', 'member', '1', 'admin在2015-05-08 15:53登录了后台', '1', '1431071598');
-INSERT INTO `ad_action_log` VALUES ('546', '1', '1', '2130706433', 'member', '1', 'admin在2015-05-08 17:10登录了后台', '1', '1431076231');
-INSERT INTO `ad_action_log` VALUES ('547', '1', '1', '2130706433', 'member', '1', 'admin在2015-05-15 11:05登录了后台', '1', '1431659123');
+INSERT INTO `ad_action_log` VALUES ('570', '1', '1', '2130706433', 'member', '1', 'admin在2016-06-01 14:48登录了后台', '1', '1464763736');
 
 -- ----------------------------
--- Table structure for `ad_auth_extend`
--- ----------------------------
-DROP TABLE IF EXISTS `ad_auth_extend`;
-CREATE TABLE `ad_auth_extend` (
-  `group_id` mediumint(10) unsigned NOT NULL COMMENT '用户id',
-  `extend_id` mediumint(8) unsigned NOT NULL COMMENT '扩展表中数据的id',
-  `type` tinyint(1) unsigned NOT NULL COMMENT '扩展类型标识 1:栏目分类权限;2:模型权限',
-  UNIQUE KEY `group_extend_type` (`group_id`,`extend_id`,`type`),
-  KEY `uid` (`group_id`),
-  KEY `group_id` (`extend_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户组与分类的对应关系表';
-
--- ----------------------------
--- Records of ad_auth_extend
--- ----------------------------
-INSERT INTO `ad_auth_extend` VALUES ('1', '1', '1');
-INSERT INTO `ad_auth_extend` VALUES ('1', '1', '2');
-INSERT INTO `ad_auth_extend` VALUES ('1', '2', '1');
-INSERT INTO `ad_auth_extend` VALUES ('1', '2', '2');
-INSERT INTO `ad_auth_extend` VALUES ('1', '3', '1');
-INSERT INTO `ad_auth_extend` VALUES ('1', '3', '2');
-INSERT INTO `ad_auth_extend` VALUES ('1', '4', '1');
-INSERT INTO `ad_auth_extend` VALUES ('1', '37', '1');
-
--- ----------------------------
--- Table structure for `ad_auth_group`
+-- Table structure for ad_auth_group
 -- ----------------------------
 DROP TABLE IF EXISTS `ad_auth_group`;
 CREATE TABLE `ad_auth_group` (
@@ -105,15 +77,15 @@ CREATE TABLE `ad_auth_group` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '用户组状态：为1正常，为0禁用,-1为删除',
   `rules` varchar(500) NOT NULL DEFAULT '' COMMENT '用户组拥有的规则id，多个规则 , 隔开',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of ad_auth_group
 -- ----------------------------
-INSERT INTO `ad_auth_group` VALUES ('1', 'admin', '1', '默认用户组', '', '1', '1,2,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,79,80,81,82,83,84,86,87,88,89,90,91,92,93,94,95,96,97,100,102,103,105,106');
+INSERT INTO `ad_auth_group` VALUES ('1', 'admin', '1', '默认用户组', '', '1', '342,343,344,345,346,347,348,349,350,351,352,353,354,355,356,357,358,359,360,361,362,363,364,365,366,367,404,405,406,407,420,424');
 
 -- ----------------------------
--- Table structure for `ad_auth_group_access`
+-- Table structure for ad_auth_group_access
 -- ----------------------------
 DROP TABLE IF EXISTS `ad_auth_group_access`;
 CREATE TABLE `ad_auth_group_access` (
@@ -129,7 +101,7 @@ CREATE TABLE `ad_auth_group_access` (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for `ad_auth_rule`
+-- Table structure for ad_auth_rule
 -- ----------------------------
 DROP TABLE IF EXISTS `ad_auth_rule`;
 CREATE TABLE `ad_auth_rule` (
@@ -236,7 +208,7 @@ INSERT INTO `ad_auth_rule` VALUES ('427', 'admin', '2', 'Admin/other', '其他',
 INSERT INTO `ad_auth_rule` VALUES ('428', 'admin', '2', 'Admin/Config/group', '系统', '1', '');
 
 -- ----------------------------
--- Table structure for `ad_config`
+-- Table structure for ad_config
 -- ----------------------------
 DROP TABLE IF EXISTS `ad_config`;
 CREATE TABLE `ad_config` (
@@ -267,7 +239,7 @@ INSERT INTO `ad_config` VALUES ('3', 'WEB_SITE_KEYWORD', '2', '网站关键字',
 INSERT INTO `ad_config` VALUES ('4', 'WEB_SITE_CLOSE', '4', '关闭站点', '1', '0:关闭,1:开启', '站点关闭后其他用户不能访问，管理员可以正常访问', '1378898976', '1379235296', '1', '1', '1');
 INSERT INTO `ad_config` VALUES ('9', 'CONFIG_TYPE_LIST', '3', '配置类型列表', '4', '', '主要用于数据解析和页面表单的生成', '1378898976', '1379235348', '1', '0:数字\r\n1:字符\r\n2:文本\r\n3:数组\r\n4:枚举', '2');
 INSERT INTO `ad_config` VALUES ('10', 'WEB_SITE_ICP', '1', '网站备案号', '1', '', '设置在网站底部显示的备案号，如“沪ICP备12007941号-2', '1378900335', '1379235859', '1', '', '9');
-INSERT INTO `ad_config` VALUES ('13', 'COLOR_STYLE', '4', '后台色系', '1', 'default_color:默认\r\nblue_color:紫罗兰\r\namaze:蓝色', '后台颜色风格', '1379122533', '1419848954', '1', 'amaze', '10');
+INSERT INTO `ad_config` VALUES ('13', 'COLOR_STYLE', '4', '后台色系', '1', 'default_color:默认\r\nblue_color:紫罗兰\r\namaze:蓝色', '后台颜色风格', '1379122533', '1419848954', '1', 'default_color', '10');
 INSERT INTO `ad_config` VALUES ('20', 'CONFIG_GROUP_LIST', '3', '配置分组', '4', '', '配置分组', '1379228036', '1384418383', '1', '1:基本\r\n2:内容\r\n3:用户\r\n4:系统', '4');
 INSERT INTO `ad_config` VALUES ('21', 'HOOKS_TYPE', '3', '钩子的类型', '4', '', '类型 1-用于扩展显示内容，2-用于扩展业务处理', '1379313397', '1379313407', '1', '1:视图\r\n2:控制器', '6');
 INSERT INTO `ad_config` VALUES ('22', 'AUTH_CONFIG', '3', 'Auth配置', '4', '', '自定义Auth.class.php类配置', '1379409310', '1379409564', '1', 'AUTH_ON:1\r\nAUTH_TYPE:2', '8');
@@ -286,12 +258,14 @@ INSERT INTO `ad_config` VALUES ('36', 'ADMIN_ALLOW_IP', '2', '后台允许访问
 INSERT INTO `ad_config` VALUES ('37', 'SHOW_PAGE_TRACE', '4', '是否显示页面Trace', '4', '0:关闭\r\n1:开启', '是否显示页面Trace信息', '1387165685', '1387165685', '1', '0', '1');
 
 -- ----------------------------
--- Table structure for `ad_member`
+-- Table structure for ad_member
 -- ----------------------------
 DROP TABLE IF EXISTS `ad_member`;
 CREATE TABLE `ad_member` (
   `uid` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',
   `nickname` char(16) NOT NULL DEFAULT '' COMMENT '昵称',
+  `password` char(32) NOT NULL,
+  `salt` char(8) NOT NULL,
   `sex` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '性别',
   `birthday` date NOT NULL DEFAULT '0000-00-00' COMMENT '生日',
   `qq` char(10) NOT NULL DEFAULT '' COMMENT 'qq号',
@@ -303,18 +277,19 @@ CREATE TABLE `ad_member` (
   `last_login_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后登录时间',
   `mobile` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '会员状态',
+  `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT '会员状态',
   PRIMARY KEY (`uid`),
+  UNIQUE KEY `nickname` (`nickname`),
   KEY `status` (`status`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COMMENT='会员表';
+) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COMMENT='会员表';
 
 -- ----------------------------
 -- Records of ad_member
 -- ----------------------------
-INSERT INTO `ad_member` VALUES ('1', 'admin', '0', '0000-00-00', '', '340', '181', '0', '1415930331', '2130706433', '1431659123', '', '', '1');
+INSERT INTO `ad_member` VALUES ('1', 'admin', '8d46ef598a0fb3827f42f4beaa3860a4', 'qDnK9jgp', '0', '0000-00-00', '', '400', '197', '0', '1415930331', '2130706433', '1464763736', '', '', '1');
 
 -- ----------------------------
--- Table structure for `ad_menu`
+-- Table structure for ad_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `ad_menu`;
 CREATE TABLE `ad_menu` (
@@ -364,20 +339,6 @@ INSERT INTO `ad_menu` VALUES ('39', '分类授权', '27', '0', 'AuthManager/cate
 INSERT INTO `ad_menu` VALUES ('40', '保存分类授权', '27', '0', 'AuthManager/addToCategory', '0', '\"分类授权\"页面的\"保存\"按钮', '', '0', '1');
 INSERT INTO `ad_menu` VALUES ('41', '模型授权', '27', '0', 'AuthManager/modelauth', '0', '\"后台 \\ 用户 \\ 权限管理\"列表页的\"模型授权\"操作按钮', '', '0', '1');
 INSERT INTO `ad_menu` VALUES ('42', '保存模型授权', '27', '0', 'AuthManager/addToModel', '0', '\"分类授权\"页面的\"保存\"按钮', '', '0', '1');
-INSERT INTO `ad_menu` VALUES ('44', '插件管理', '43', '1', 'Addons/index', '0', '', '扩展', '0', '1');
-INSERT INTO `ad_menu` VALUES ('45', '创建', '44', '0', 'Addons/create', '0', '服务器上创建插件结构向导', '', '0', '1');
-INSERT INTO `ad_menu` VALUES ('46', '检测创建', '44', '0', 'Addons/checkForm', '0', '检测插件是否可以创建', '', '0', '1');
-INSERT INTO `ad_menu` VALUES ('47', '预览', '44', '0', 'Addons/preview', '0', '预览插件定义类文件', '', '0', '1');
-INSERT INTO `ad_menu` VALUES ('48', '快速生成插件', '44', '0', 'Addons/build', '0', '开始生成插件结构', '', '0', '1');
-INSERT INTO `ad_menu` VALUES ('49', '设置', '44', '0', 'Addons/config', '0', '设置插件配置', '', '0', '1');
-INSERT INTO `ad_menu` VALUES ('50', '禁用', '44', '0', 'Addons/disable', '0', '禁用插件', '', '0', '1');
-INSERT INTO `ad_menu` VALUES ('51', '启用', '44', '0', 'Addons/enable', '0', '启用插件', '', '0', '1');
-INSERT INTO `ad_menu` VALUES ('52', '安装', '44', '0', 'Addons/install', '0', '安装插件', '', '0', '1');
-INSERT INTO `ad_menu` VALUES ('53', '卸载', '44', '0', 'Addons/uninstall', '0', '卸载插件', '', '0', '1');
-INSERT INTO `ad_menu` VALUES ('54', '更新配置', '44', '0', 'Addons/saveconfig', '0', '更新插件配置处理', '', '0', '1');
-INSERT INTO `ad_menu` VALUES ('55', '插件后台列表', '44', '0', 'Addons/adminList', '0', '', '', '0', '1');
-INSERT INTO `ad_menu` VALUES ('56', 'URL方式访问插件', '44', '0', 'Addons/execute', '0', '控制是否有权限通过url访问插件控制器方法', '', '0', '1');
-INSERT INTO `ad_menu` VALUES ('57', '钩子管理', '43', '2', 'Addons/hooks', '0', '', '扩展', '0', '1');
 INSERT INTO `ad_menu` VALUES ('59', '新增', '58', '0', 'model/add', '0', '', '', '0', '1');
 INSERT INTO `ad_menu` VALUES ('60', '编辑', '58', '0', 'model/edit', '0', '', '', '0', '1');
 INSERT INTO `ad_menu` VALUES ('61', '改变状态', '58', '0', 'model/setStatus', '0', '', '', '0', '1');
@@ -404,7 +365,6 @@ INSERT INTO `ad_menu` VALUES ('88', '优化表', '86', '0', 'Database/optimize',
 INSERT INTO `ad_menu` VALUES ('89', '修复表', '86', '0', 'Database/repair', '0', '修复数据表', '', '0', '1');
 INSERT INTO `ad_menu` VALUES ('91', '恢复', '90', '0', 'Database/import', '0', '数据库恢复', '', '0', '1');
 INSERT INTO `ad_menu` VALUES ('92', '删除', '90', '0', 'Database/del', '0', '删除备份文件', '', '0', '1');
-INSERT INTO `ad_menu` VALUES ('93', '其他', '0', '5', 'other', '1', '', '', '0', '1');
 INSERT INTO `ad_menu` VALUES ('96', '新增', '75', '0', 'Menu/add', '0', '', '系统设置', '0', '1');
 INSERT INTO `ad_menu` VALUES ('98', '编辑', '75', '0', 'Menu/edit', '0', '', '', '0', '1');
 INSERT INTO `ad_menu` VALUES ('106', '行为日志', '16', '0', 'Action/actionlog', '0', '', '行为管理', '0', '1');
@@ -423,83 +383,3 @@ INSERT INTO `ad_menu` VALUES ('120', '排序', '75', '0', 'Menu/sort', '1', '', 
 INSERT INTO `ad_menu` VALUES ('121', '排序', '76', '0', 'Channel/sort', '1', '', '', '0', '1');
 INSERT INTO `ad_menu` VALUES ('122', '数据列表', '58', '0', 'think/lists', '1', '', '', '0', '1');
 INSERT INTO `ad_menu` VALUES ('123', '审核列表', '3', '0', 'Article/examine', '1', '', '', '0', '1');
-
--- ----------------------------
--- Table structure for `ad_ucenter_admin`
--- ----------------------------
-DROP TABLE IF EXISTS `ad_ucenter_admin`;
-CREATE TABLE `ad_ucenter_admin` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '管理员ID',
-  `member_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '管理员用户ID',
-  `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '管理员状态',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='管理员表';
-
--- ----------------------------
--- Records of ad_ucenter_admin
--- ----------------------------
-
--- ----------------------------
--- Table structure for `ad_ucenter_app`
--- ----------------------------
-DROP TABLE IF EXISTS `ad_ucenter_app`;
-CREATE TABLE `ad_ucenter_app` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '应用ID',
-  `title` varchar(30) NOT NULL COMMENT '应用名称',
-  `url` varchar(100) NOT NULL COMMENT '应用URL',
-  `ip` char(15) NOT NULL DEFAULT '' COMMENT '应用IP',
-  `auth_key` varchar(100) NOT NULL DEFAULT '' COMMENT '加密KEY',
-  `sys_login` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '同步登陆',
-  `allow_ip` varchar(255) NOT NULL DEFAULT '' COMMENT '允许访问的IP',
-  `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '应用状态',
-  PRIMARY KEY (`id`),
-  KEY `status` (`status`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='应用表';
-
--- ----------------------------
--- Records of ad_ucenter_app
--- ----------------------------
-
--- ----------------------------
--- Table structure for `ad_ucenter_member`
--- ----------------------------
-DROP TABLE IF EXISTS `ad_ucenter_member`;
-CREATE TABLE `ad_ucenter_member` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',
-  `username` char(16) NOT NULL COMMENT '用户名',
-  `password` char(32) NOT NULL COMMENT '密码',
-  `email` char(32) NOT NULL COMMENT '用户邮箱',
-  `mobile` char(15) NOT NULL DEFAULT '' COMMENT '用户手机',
-  `reg_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '注册时间',
-  `reg_ip` bigint(20) NOT NULL DEFAULT '0' COMMENT '注册IP',
-  `last_login_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后登录时间',
-  `last_login_ip` bigint(20) NOT NULL DEFAULT '0' COMMENT '最后登录IP',
-  `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-  `status` tinyint(4) DEFAULT '0' COMMENT '用户状态',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`),
-  UNIQUE KEY `email` (`email`),
-  KEY `status` (`status`)
-) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COMMENT='用户表';
-
--- ----------------------------
--- Records of ad_ucenter_member
--- ----------------------------
-INSERT INTO `ad_ucenter_member` VALUES ('1', 'admin', 'e64d861187d43bb4a21baf610d44c0f5', '373017263@qq.com', '', '1415930331', '2130706433', '1431659123', '2130706433', '1415930331', '1');
-
--- ----------------------------
--- Table structure for `ad_ucenter_setting`
--- ----------------------------
-DROP TABLE IF EXISTS `ad_ucenter_setting`;
-CREATE TABLE `ad_ucenter_setting` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '设置ID',
-  `type` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '配置类型（1-用户配置）',
-  `value` text NOT NULL COMMENT '配置数据',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='设置表';
-
--- ----------------------------
--- Records of ad_ucenter_setting
--- ----------------------------

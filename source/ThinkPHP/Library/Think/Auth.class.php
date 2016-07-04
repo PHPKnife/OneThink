@@ -191,7 +191,6 @@ class Auth{
         );
         //读取用户组所有权限规则
         $rules = M()->table($this->_config['AUTH_RULE'])->where($map)->field('condition,name')->select();
-
         //循环规则，判断结果。
         $authList = array();   //
         foreach ($rules as $rule) {
